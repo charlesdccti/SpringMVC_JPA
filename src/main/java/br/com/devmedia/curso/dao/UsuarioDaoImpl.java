@@ -19,7 +19,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@Override
+	@Override 
 	public void salvar(Usuario usuario) {
 		this.entityManager.persist(usuario);
 	}
