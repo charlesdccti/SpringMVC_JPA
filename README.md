@@ -1,5 +1,5 @@
 # O Projeto SpringMVC_JPA é uma aplicação Web, que utilisa as tecnologias abaixo:
-Java
+Java,
 Spring Framework,
 SpringMVC, 
 JSP, 
