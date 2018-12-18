@@ -33,14 +33,22 @@ public class UsuarioController {
 	public TipoSexo[] tipoSexo() {
 		return TipoSexo.values();
 	}
-	
-	 @GetMapping("/sexo")
-	 public ModelAndView listarPorSexo(@RequestParam(value = "tipoSexo") TipoSexo sexo) {
-	       if (sexo == null) {
-	           return new ModelAndView("redirect:/usuario/todos");
-	       }
-	       return new ModelAndView("/user/list", "usuarios", dao.getBySexo(sexo));
-	  }
+
+	@GetMapping("/sexo")
+	public ModelAndView listarPorSexo(@RequestParam(value = "tipoSexo") TipoSexo sexo) {
+		if (sexo == null) {
+			return new ModelAndView("redirect:/usuario/todos");
+		}
+		return new ModelAndView("/user/list", "usuarios", dao.getBySexo(sexo));
+	}
+
+	@GetMapping("/nome")
+	public ModelAndView listarPorNome(@RequestParam(value = "nome") String nome) {
+		if (nome == null) {
+			return new ModelAndView("redirect:/usuario/todos");
+		}
+		return new ModelAndView("/user/list", "usuarios", dao.getByNome(nome));
+	}
 	
 	@RequestMapping(value = "/todos", method = RequestMethod.GET)
 	public ModelAndView listaTodos(ModelMap model) {

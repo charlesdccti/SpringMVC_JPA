@@ -18,4 +18,6 @@ public interface UsuarioDao {
 	List<Usuario> getTodos(); 
 	
 	List<Usuario> getBySexo(TipoSexo tipoSexo);
+
+	List<Usuario> getByNome(String nome);
 }
