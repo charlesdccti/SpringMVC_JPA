@@ -35,10 +35,14 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		
 	}
 
+	@Transactional(readOnly = true) 
 	@Override
 	public Usuario getId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		// Faz a busca de usuarios por id
+		String	jpql = "from Usuario u where u.id = :id";
+		TypedQuery<Usuario> query = entityManager.createQuery(jpql, Usuario.class);
+		query.setParameter("id", id);
+		return query.getSingleResult();
 	}
 
 	@Transactional(readOnly = true)
