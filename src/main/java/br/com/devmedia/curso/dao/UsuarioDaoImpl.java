@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.devmedia.curso.domain.Usuario;
 
+
 @Transactional
 @Repository
 public class UsuarioDaoImpl implements UsuarioDao {
@@ -20,19 +21,20 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	
 	@Override
 	public void salvar(Usuario usuario) {
-		entityManager.persist(usuario);
+		this.entityManager.persist(usuario);
 	}
 
+	
+	@Transactional
 	@Override
 	public void editar(Usuario usuario) {
-		// TODO Auto-generated method stub
-		
+	 entityManager.merge(usuario);                      
 	}
 
+	@Transactional
 	@Override
 	public void excluir(Long id) {
-		// TODO Auto-generated method stub
-		
+		this.entityManager.remove(entityManager.getReference(Usuario.class, id));
 	}
 
 	@Transactional(readOnly = true) 
