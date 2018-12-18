@@ -1,69 +1,56 @@
 package br.com.devmedia.curso.dao;
 
-import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import br.com.devmedia.curso.domain.TipoSexo;
 import br.com.devmedia.curso.domain.Usuario;
 
+@Transactional
 @Repository
 public class UsuarioDaoImpl implements UsuarioDao {
 
-	private static List<Usuario> us;
+	@PersistenceContext
+	private EntityManager entityManager;
 	
-	public UsuarioDaoImpl() {
-		createUserList();
-	}
-	
-    private List<Usuario> createUserList() {
-        if (us == null) {
-            us = new LinkedList<>();
-            us.add(new Usuario(System.currentTimeMillis()+1L, "Ana", "da Silva", LocalDate.of(1992, 5, 10), TipoSexo.FEMININO));
-            us.add(new Usuario(System.currentTimeMillis()+2L, "Luiz", "dos Santos", LocalDate.of(1990, 8, 11), TipoSexo.MASCULINO));
-            us.add(new Usuario(System.currentTimeMillis()+3L, "Mariana", "Mello", LocalDate.of(1988, 9, 17), TipoSexo.FEMININO));
-            us.add(new Usuario(System.currentTimeMillis()+4L, "Caren", "Pereira"));
-            us.add(new Usuario(System.currentTimeMillis()+5L, "Sonia", "Fagundes"));
-            us.add(new Usuario(System.currentTimeMillis()+6L, "Norberto", "de Souza"));  
-        }
-        return us;
-    }
-
 	@Override
 	public void salvar(Usuario usuario) {
-		usuario.setId(System.currentTimeMillis());
-		us.add(usuario);
+		entityManager.persist(usuario);
 	}
 
 	@Override
 	public void editar(Usuario usuario) {
-		us.stream()
-			.filter((u) -> u.getId().equals(usuario.getId()))
-			.forEach((u) -> {
-				u.setNome(usuario.getNome());
-				u.setSobrenome(usuario.getSobrenome());
-				u.setDtNascimento(usuario.getDtNascimento());
-				u.setSexo(usuario.getSexo());
-			});		
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void excluir(Long id) {
-		us.removeIf((u) -> u.getId().equals(id));		
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public Usuario getId(Long id) {
-		return us.stream()
-				.filter((u) -> u.getId().equals(id))
-				.collect(Collectors.toList()).get(0);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<Usuario> getTodos() {
-		return us;
-	}	
+		//Faz um select * from Usuario com jpql do JPA
+		String jpql = "from Usuario u";
+		TypedQuery<Usuario> query = entityManager.createQuery(jpql, Usuario.class);
+		return query.getResultList();
+	}
+
+
+	
+   
 }
